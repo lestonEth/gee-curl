@@ -27,15 +27,15 @@ const KPICard = ({ title, value, icon: Icon, trend, color, alert }: any) => (
 
 export default function Dashboard() {
   return (
-    <div className="p-10 max-w-7xl mx-auto space-y-10">
+    <div className="p-4 sm:p-10 max-w-7xl mx-auto space-y-6 sm:space-y-10">
       {/* Header */}
-      <section className="flex justify-between items-end">
+      <section className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
-          <h3 className="font-serif text-3xl text-on-surface mb-1">Good Morning, Elena</h3>
-          <p className="font-sans text-on-surface-variant italic text-sm">Today is Monday, October 24th — Shop is currently bustling.</p>
+          <h3 className="font-serif text-2xl sm:text-3xl text-on-surface mb-1">Good Morning, Elena</h3>
+          <p className="font-sans text-on-surface-variant italic text-xs sm:text-sm">Today is Monday, October 24th — Shop is currently bustling.</p>
         </div>
-        <div className="flex gap-3">
-          <button className="px-5 py-2.5 border border-outline-variant text-on-surface-variant rounded-lg font-bold text-xs flex items-center gap-2 hover:bg-surface-container-low transition-all">
+        <div className="flex gap-3 w-full sm:w-auto">
+          <button className="flex-1 sm:flex-none px-5 py-2.5 border border-outline-variant text-on-surface-variant rounded-lg font-bold text-xs flex items-center justify-center gap-2 hover:bg-surface-container-low transition-all">
             <Download size={16} />
             Export Page
           </button>
@@ -43,7 +43,7 @@ export default function Dashboard() {
       </section>
 
       {/* KPI Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <KPICard title="Total Sales" value="$4,280.50" icon={TrendingUp} trend="+12%" />
         <KPICard title="New Orders" value="24" icon={ShoppingBag} trend="from 18 yesterday" />
         <KPICard title="Low Stock" value="03" icon={ShoppingBag} alert={true} />
@@ -128,14 +128,14 @@ export default function Dashboard() {
       </section>
 
       {/* Bottom Section */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2 space-y-6">
-          <div className="flex justify-between items-center">
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10">
+        <div className="lg:col-span-2 space-y-6 overflow-hidden">
+          <div className="flex justify-between items-center px-1 sm:px-0">
             <h4 className="font-serif text-xl text-on-surface">Recent Activity</h4>
             <button className="text-primary font-bold text-xs hover:underline">View All</button>
           </div>
-          <div className="bg-white rounded-xl soft-elevation border border-stone-100 overflow-hidden">
-            <table className="w-full text-left">
+          <div className="bg-white rounded-xl soft-elevation border border-stone-100 overflow-x-auto">
+            <table className="w-full text-left min-w-[500px]">
               <thead>
                 <tr className="bg-surface-container-low border-b border-stone-100">
                   <th className="px-6 py-4 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Product</th>

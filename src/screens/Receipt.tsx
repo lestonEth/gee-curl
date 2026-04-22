@@ -14,12 +14,12 @@ import {
 export default function ReceiptScreen() {
   return (
     <div className="flex flex-col h-full bg-surface">
-      <div className="max-w-4xl mx-auto w-full flex gap-12 py-12">
+      <div className="max-w-4xl mx-auto w-full flex flex-col lg:flex-row gap-8 lg:gap-12 p-4 lg:py-12">
         {/* Left Side: Actions */}
-        <div className="w-1/3 flex flex-col gap-6">
+        <div className="w-full lg:w-1/3 flex flex-col gap-6 order-2 lg:order-1">
           <div className="bg-white p-6 rounded-xl border border-surface-container shadow-sm">
             <h3 className="font-serif text-lg font-bold text-on-surface mb-4">Actions</h3>
-            <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
               <button className="flex items-center justify-center gap-2 bg-primary text-on-primary py-3 px-4 rounded-lg font-bold text-sm hover:opacity-90 transition-all shadow-md">
                 <Printer size={18} />
                 Print Receipt
@@ -28,7 +28,7 @@ export default function ReceiptScreen() {
                 <FileDown size={18} />
                 Download PDF
               </button>
-              <button className="flex items-center justify-center gap-2 text-on-surface-variant hover:text-on-surface py-3 px-4 rounded-lg font-bold text-sm transition-all">
+              <button className="flex items-center justify-center gap-2 text-on-surface-variant hover:text-on-surface py-3 px-4 rounded-lg font-bold text-sm transition-all sm:col-span-2 lg:col-span-1">
                 <Mail size={18} />
                 Email to Customer
               </button>
@@ -55,12 +55,12 @@ export default function ReceiptScreen() {
         </div>
 
         {/* Right Side: The Digital Receipt */}
-        <div className="w-2/3">
-          <div className="receipt-paper p-12 border border-surface-container rounded-sm">
+        <div className="w-full lg:w-2/3 order-1 lg:order-2">
+          <div className="receipt-paper p-6 sm:p-12 border border-surface-container rounded-sm">
             {/* Receipt Header */}
             <div className="text-center mb-12 border-b border-surface-container-low pb-8">
-              <h2 className="font-serif text-4xl font-bold tracking-tighter text-on-surface mb-2">LUMIÈRE</h2>
-              <p className="font-sans text-on-surface-variant/60 italic text-sm mb-4">Beauty & Wellness Collective</p>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tighter text-on-surface mb-2 font-serif">GEE CURLY</h2>
+              <p className="font-sans text-on-surface-variant/60 italic text-xs sm:text-sm mb-4">Beauty & Wellness Collective</p>
               <div className="text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-widest leading-relaxed">
                 <p>124 Boutique Blvd, Ste 400</p>
                 <p>San Francisco, CA 94105</p>
@@ -124,8 +124,8 @@ export default function ReceiptScreen() {
             </div>
 
             {/* Totals Section */}
-            <div className="flex justify-between items-start mb-12">
-              <div className="w-1/2">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-8 lg:gap-12 mb-12">
+              <div className="w-full sm:w-1/2">
                 <div className="p-5 bg-surface-container-low rounded-xl border border-surface-container-high/40">
                   <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/40 mb-3">Payment Method</p>
                   <div className="flex items-center gap-4">
@@ -139,7 +139,7 @@ export default function ReceiptScreen() {
                   </div>
                 </div>
               </div>
-              <div className="w-1/3 space-y-4">
+              <div className="w-full sm:w-1/3 space-y-4">
                 <div className="flex justify-between text-sm font-bold text-on-surface-variant">
                   <span>Subtotal</span>
                   <span className="text-on-surface font-sans">$194.00</span>

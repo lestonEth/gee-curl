@@ -39,16 +39,16 @@ export default function POS() {
   const categories = ['All Products', 'Skincare', 'Fragrance', 'Gifts'];
 
   return (
-    <div className="flex h-full gap-6 p-6">
+    <div className="flex flex-col lg:flex-row h-full gap-6 p-4 lg:p-6 overflow-hidden">
       {/* Product Selection */}
       <div className="flex-1 flex flex-col gap-6 overflow-hidden">
-        <div className="flex gap-4 scrollbar-hide overflow-x-auto pb-2 shrink-0">
+        <div className="flex gap-3 lg:gap-4 overflow-x-auto pb-2 shrink-0 scrollbar-hide">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
               className={cn(
-                "px-6 py-2 rounded-full font-sans font-semibold text-sm transition-all shrink-0",
+                "px-4 lg:px-6 py-2 rounded-full font-sans font-semibold text-xs lg:text-sm transition-all shrink-0",
                 filter === cat 
                   ? "bg-primary text-on-primary shadow-md" 
                   : "bg-white text-on-surface-variant hover:bg-surface-container"
@@ -59,7 +59,7 @@ export default function POS() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto pb-6 pr-2">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 overflow-y-auto pb-6 pr-1 custom-scrollbar">
           {products
             .filter(p => filter === 'All Products' || p.category === filter)
             .map(product => (
@@ -86,22 +86,22 @@ export default function POS() {
                   />
                   
                   {/* Category Badge */}
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-[10px] font-bold text-on-surface-variant/70 uppercase tracking-tighter">
+                  <div className="absolute top-2 lg:top-3 left-2 lg:left-3">
+                    <span className="bg-white/90 backdrop-blur-sm px-2 py-0.5 lg:py-1 rounded-lg text-[9px] lg:text-[10px] font-bold text-on-surface-variant/70 uppercase tracking-tighter">
                       {product.category}
                     </span>
                   </div>
 
                   {/* Add Button Overlay */}
-                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="bg-white p-3 rounded-full shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
-                      <Plus className="text-primary w-6 h-6" />
+                  <div className="absolute inset-0 bg-black/5 opacity-0 lg:group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="bg-white p-2 lg:p-3 rounded-full shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                      <Plus className="text-primary w-4 h-4 lg:w-6 lg:h-6" />
                     </div>
                   </div>
 
                   {product.stock === 0 && (
                     <div className="absolute inset-0 bg-on-surface/5 backdrop-blur-[2px] flex items-center justify-center">
-                      <span className="bg-error text-on-error px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                      <span className="bg-error text-on-error px-3 lg:px-4 py-1 lg:py-1.5 rounded-full text-[9px] lg:text-[10px] font-black uppercase tracking-widest shadow-lg">
                         Out of Stock
                       </span>
                     </div>
@@ -109,30 +109,31 @@ export default function POS() {
                   
                   {/* Stock Level Small Indicator */}
                   {product.stock > 0 && product.stock <= 5 && (
-                    <div className="absolute bottom-3 left-3">
-                      <span className="bg-error/10 backdrop-blur-sm text-error px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-tight">
+                    <div className="absolute bottom-2 lg:bottom-3 left-2 lg:left-3">
+                      <span className="bg-error/10 backdrop-blur-sm text-error px-1.5 lg:px-2 py-0.5 rounded text-[8px] lg:text-[9px] font-black uppercase tracking-tight">
                         Low Stock: {product.stock}
                       </span>
                     </div>
                   )}
                 </div>
 
-                <div className="p-4 flex-1 flex flex-col gap-2">
+                <div className="p-3 lg:p-4 flex-1 flex flex-col gap-1 lg:gap-2">
                   <div className="flex-1">
-                    <h4 className="font-serif text-[15px] leading-tight text-on-surface font-semibold group-hover:text-primary transition-colors">
+                    <h4 className="font-serif text-sm lg:text-[15px] leading-tight text-on-surface font-semibold group-hover:text-primary transition-colors line-clamp-1">
                       {product.name}
                     </h4>
-                    <p className="text-[11px] text-on-surface-variant/50 font-sans mt-0.5">SKU: {product.sku}</p>
+                    <p className="text-[10px] text-on-surface-variant/50 font-sans">SKU: {product.sku}</p>
                   </div>
                   
                   <div className="flex justify-between items-end mt-auto pt-2 border-t border-stone-50">
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-on-surface-variant/40 font-bold uppercase tracking-widest">Price</span>
-                      <span className="font-sans text-lg text-primary font-black tracking-tight">${product.price.toFixed(2)}</span>
+                      <span className="text-[9px] text-on-surface-variant/40 font-bold uppercase tracking-widest">Price</span>
+                      <span className="font-sans text-base lg:text-lg text-primary font-black tracking-tight">${product.price.toFixed(2)}</span>
                     </div>
                     {product.stock > 0 && (
-                      <div className="bg-primary/5 p-1.5 rounded-lg text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Plus size={18} strokeWidth={3} />
+                      <div className="bg-primary/5 p-1 lg:p-1.5 rounded-lg text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Plus size={16} strokeWidth={3} className="lg:hidden" />
+                        <Plus size={18} strokeWidth={3} className="hidden lg:block" />
                       </div>
                     )}
                   </div>
@@ -143,8 +144,15 @@ export default function POS() {
       </div>
 
       {/* Checkout Sidebar */}
-      <section className="w-[420px] bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden border border-stone-100 shrink-0">
-        <div className="p-6 border-b border-surface-container flex justify-between items-center">
+      <section className={cn(
+        "bg-white lg:rounded-2xl shadow-xl flex flex-col border-t lg:border border-stone-100 transition-all duration-300 shrink-0",
+        "fixed lg:relative inset-x-0 bottom-0 h-2/3 lg:h-auto lg:inset-auto lg:w-[380px] xl:w-[420px] z-50 lg:z-0",
+        cart.length > 0 ? "translate-y-0" : "translate-y-full lg:translate-y-0"
+      )}>
+        {/* Cart Toggle Handle for Mobile */}
+        <div className="lg:hidden h-1.5 w-12 bg-stone-200 rounded-full mx-auto my-3 shrink-0" />
+
+        <div className="p-4 lg:p-6 border-b border-stone-50 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <h3 className="font-serif text-xl font-bold text-on-surface">Current Order</h3>
             <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold">{cart.length}</span>

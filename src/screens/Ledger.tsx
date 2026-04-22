@@ -5,22 +5,22 @@ import { cn } from '../lib/utils';
 
 export default function LedgerScreen() {
   return (
-    <div className="p-10 space-y-10 max-w-[1400px] mx-auto w-full">
+    <div className="p-4 sm:p-10 space-y-6 sm:space-y-10 max-w-[1400px] mx-auto w-full text-left">
       {/* Header */}
-      <div className="flex justify-between items-end">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
-          <h3 className="font-serif text-3xl text-on-surface">Financial Ledger</h3>
-          <p className="font-sans text-on-surface-variant text-sm mt-1">Reviewing performance for Oct 1 — Oct 31, 2023</p>
+          <h3 className="font-serif text-2xl sm:text-3xl text-on-surface">Financial Ledger</h3>
+          <p className="font-sans text-on-surface-variant text-xs sm:text-sm mt-1">Performance for Oct 1 — Oct 31, 2023</p>
         </div>
-        <button className="border border-outline px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 hover:bg-stone-50 transition-colors text-on-surface-variant">
+        <button className="w-full sm:w-auto border border-outline px-6 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors text-on-surface-variant">
           <Download size={18} />
-          Download Monthly Report
+          Monthly Report
         </button>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-8 rounded-xl shadow-sm border border-surface-container-high flex flex-col justify-between">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-surface-container-high flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-start mb-4">
               <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">DEBITS / SALES</span>
@@ -61,42 +61,44 @@ export default function LedgerScreen() {
       </div>
 
       {/* Filters */}
-      <div className="bg-surface-container-low p-6 rounded-2xl flex flex-wrap gap-8 items-end border border-surface-container-high/40">
-        <div className="flex flex-col gap-2">
+      <div className="bg-surface-container-low p-4 sm:p-6 rounded-2xl flex flex-col sm:flex-row flex-wrap gap-4 lg:gap-8 items-stretch sm:items-end border border-surface-container-high/40 overflow-x-auto scrollbar-hide">
+        <div className="flex flex-col gap-2 min-w-[200px]">
           <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest px-1">Date Range</label>
           <div className="relative">
             <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/40" size={16} />
-            <select className="bg-white border-none rounded-lg pl-10 pr-8 py-2.5 text-sm font-bold text-on-surface focus:ring-1 focus:ring-primary appearance-none min-w-[200px] shadow-sm">
+            <select className="bg-white border-none rounded-lg pl-10 pr-8 py-2.5 text-sm font-bold text-on-surface focus:ring-1 focus:ring-primary appearance-none w-full shadow-sm">
               <option>Oct 01 - Oct 31, 2023</option>
               <option>Sep 01 - Sep 30, 2023</option>
               <option>Custom Range...</option>
             </select>
           </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest px-1">Type</label>
-          <select className="bg-white border-none rounded-lg px-4 py-2.5 text-sm font-bold text-on-surface focus:ring-1 focus:ring-primary min-w-[140px] shadow-sm">
-            <option>All Types</option>
-            <option>Sales (Debit)</option>
-            <option>Purchase (Credit)</option>
-          </select>
+        <div className="flex-1 flex gap-4">
+          <div className="flex flex-col gap-2 flex-1">
+            <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest px-1">Type</label>
+            <select className="bg-white border-none rounded-lg px-4 py-2.5 text-sm font-bold text-on-surface focus:ring-1 focus:ring-primary w-full shadow-sm">
+              <option>All Types</option>
+              <option>Sales (Debit)</option>
+              <option>Purchase (Credit)</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-2 flex-1">
+            <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest px-1">Category</label>
+            <select className="bg-white border-none rounded-lg px-4 py-2.5 text-sm font-bold text-on-surface focus:ring-1 focus:ring-primary w-full shadow-sm">
+              <option>All Categories</option>
+              <option>Skincare Products</option>
+              <option>Service Fees</option>
+            </select>
+          </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest px-1">Category</label>
-          <select className="bg-white border-none rounded-lg px-4 py-2.5 text-sm font-bold text-on-surface focus:ring-1 focus:ring-primary min-w-[180px] shadow-sm">
-            <option>All Categories</option>
-            <option>Skincare Products</option>
-            <option>Service Fees</option>
-          </select>
-        </div>
-        <button className="mb-1 text-primary font-bold text-xs uppercase tracking-widest hover:underline px-2 transition-all">Clear All</button>
+        <button className="sm:mb-1 text-primary font-bold text-xs uppercase tracking-widest hover:underline px-2 transition-all">Clear All</button>
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-2xl shadow-sm border border-surface-container-high overflow-hidden">
-        <div className="px-8 py-5 border-b border-surface-container-low flex justify-between items-center">
-          <h5 className="font-serif text-xl text-on-surface">Transaction History</h5>
-          <div className="flex gap-4">
+        <div className="px-4 sm:px-8 py-5 border-b border-surface-container-low flex justify-between items-center">
+          <h5 className="font-serif text-lg sm:text-xl text-on-surface">Transaction History</h5>
+          <div className="hidden sm:flex gap-4">
             <span className="flex items-center gap-2 text-[10px] font-black text-on-surface-variant/60 uppercase">
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Credit
             </span>
@@ -106,7 +108,7 @@ export default function LedgerScreen() {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left min-w-[700px]">
             <thead className="bg-surface-container-low/30 border-b border-surface-container-low">
               <tr className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
                 <th className="px-8 py-5">Date</th>

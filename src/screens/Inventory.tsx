@@ -5,19 +5,19 @@ import { cn } from '../lib/utils';
 
 export default function InventoryScreen() {
   return (
-    <div className="p-10 space-y-8 max-w-[1400px] mx-auto w-full">
+    <div className="p-4 sm:p-10 space-y-6 sm:space-y-8 max-w-[1400px] mx-auto w-full">
       {/* Page Header */}
-      <div className="flex justify-between items-end">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 text-left">
         <div>
-          <h2 className="font-serif text-3xl text-primary tracking-tight">Product Inventory</h2>
-          <p className="text-on-surface-variant text-sm mt-1">Manage your boutique essentials and stock levels.</p>
+          <h2 className="font-serif text-2xl sm:text-3xl text-primary tracking-tight">Product Inventory</h2>
+          <p className="text-on-surface-variant text-xs sm:text-sm mt-1">Manage your boutique essentials and stock levels.</p>
         </div>
-        <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-outline-variant rounded-lg font-semibold text-sm text-on-surface-variant hover:bg-surface-container transition-colors shadow-sm">
+        <div className="flex gap-3 w-full sm:w-auto">
+          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-outline-variant rounded-lg font-semibold text-xs sm:text-sm text-on-surface-variant hover:bg-surface-container transition-colors shadow-sm">
             <FileDown size={18} />
             Export CSV
           </button>
-          <button className="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold text-sm shadow-sm hover:opacity-90 transition-all">
+          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold text-xs sm:text-sm shadow-sm hover:opacity-90 transition-all">
             <Plus size={18} />
             Add New Product
           </button>
@@ -25,32 +25,32 @@ export default function InventoryScreen() {
       </div>
 
       {/* Stock Alert Banner */}
-      <div className="bg-secondary-container/30 border border-secondary-container rounded-xl p-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+      <div className="bg-secondary-container/30 border border-secondary-container rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-secondary shrink-0">
             <AlertTriangle className="animate-pulse" size={20} />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-on-secondary-container">Stock Alert: Critical Levels</h4>
-            <p className="text-xs text-on-secondary-container opacity-80">4 items are currently out of stock and 8 items require immediate reordering.</p>
+            <h4 className="text-sm font-bold text-on-secondary-container">Stock Alert</h4>
+            <p className="text-[10px] sm:text-xs text-on-secondary-container opacity-80 leading-tight">4 items out of stock, 8 require immediate reordering.</p>
           </div>
         </div>
-        <button className="text-secondary font-bold text-sm hover:underline decoration-2 underline-offset-4">
+        <button className="w-full sm:w-auto text-secondary font-bold text-sm hover:underline decoration-2 underline-offset-4 whitespace-nowrap">
           Review Alerts
         </button>
       </div>
 
       {/* Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-4 py-2">
-        <div className="flex gap-2 p-1 bg-surface-container-low rounded-xl border border-outline-variant/30">
-          <button className="px-6 py-2 bg-white rounded-lg shadow-sm font-bold text-xs text-primary">All Products</button>
-          <button className="px-6 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:bg-white/50 transition-colors">Skincare</button>
-          <button className="px-6 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:bg-white/50 transition-colors">Haircare</button>
-          <button className="px-6 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:bg-white/50 transition-colors">Makeup</button>
-          <button className="px-6 py-2 rounded-lg font-bold text-xs text-on-surface-variant hover:bg-white/50 transition-colors">Fragrance</button>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-2">
+        <div className="flex gap-2 p-1 bg-surface-container-low rounded-xl border border-outline-variant/30 overflow-x-auto w-full sm:w-auto scrollbar-hide">
+          <button className="px-4 lg:px-6 py-2 bg-white rounded-lg shadow-sm font-bold text-[10px] lg:text-xs text-primary whitespace-nowrap">All Products</button>
+          <button className="px-4 lg:px-6 py-2 rounded-lg font-bold text-[10px] lg:text-xs text-on-surface-variant hover:bg-white/50 transition-colors whitespace-nowrap">Skincare</button>
+          <button className="px-4 lg:px-6 py-2 rounded-lg font-bold text-[10px] lg:text-xs text-on-surface-variant hover:bg-white/50 transition-colors whitespace-nowrap">Haircare</button>
+          <button className="px-4 lg:px-6 py-2 rounded-lg font-bold text-[10px] lg:text-xs text-on-surface-variant hover:bg-white/50 transition-colors whitespace-nowrap">Makeup</button>
+          <button className="px-4 lg:px-6 py-2 rounded-lg font-bold text-[10px] lg:text-xs text-on-surface-variant hover:bg-white/50 transition-colors whitespace-nowrap">Fragrance</button>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-on-surface-variant font-bold text-xs">
+          <div className="flex items-center gap-2 text-on-surface-variant font-bold text-[10px] lg:text-xs">
             <Filter size={16} />
             Sort by: <span className="text-primary">Latest Added</span>
           </div>
@@ -60,7 +60,7 @@ export default function InventoryScreen() {
       {/* Table */}
       <div className="bg-white rounded-xl border border-stone-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
               <tr className="bg-surface-container-low/50">
                 <th className="px-8 py-4 font-bold text-[10px] text-on-surface-variant uppercase tracking-widest">Product</th>

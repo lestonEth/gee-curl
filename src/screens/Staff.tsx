@@ -5,21 +5,21 @@ import { cn } from '../lib/utils';
 
 export default function StaffScreen() {
   return (
-    <div className="p-10 max-w-[1400px] mx-auto w-full space-y-10">
+    <div className="p-4 sm:p-10 max-w-[1400px] mx-auto w-full space-y-6 sm:space-y-10 text-left">
       {/* Header */}
-      <div className="flex justify-between items-end mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-8">
         <div>
-          <p className="text-primary font-bold text-[10px] uppercase tracking-widest mb-2">Human Resources</p>
-          <h1 className="font-serif text-3xl text-on-surface">Staff & Performance</h1>
+          <p className="text-primary font-bold text-[10px] uppercase tracking-widest mb-1 sm:mb-2 text-left">Human Resources</p>
+          <h1 className="font-serif text-2xl sm:text-3xl text-on-surface text-left">Staff & Performance</h1>
         </div>
-        <div className="flex gap-6">
-          <button className="flex items-center gap-2 border border-outline px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-surface-container-low transition-colors text-on-surface-variant">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto">
+          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 border border-outline px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-surface-container-low transition-colors text-on-surface-variant">
             <Calendar size={18} />
-            View Shift Schedule
+            Shift Schedule
           </button>
-          <button className="flex items-center gap-2 bg-on-surface text-on-primary px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-on-surface/90 transition-all shadow-md">
+          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-on-surface text-on-primary px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-on-surface/90 transition-all shadow-md">
             <UserPlus size={18} />
-            Add New Employee
+            New Employee
           </button>
         </div>
       </div>
