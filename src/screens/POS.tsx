@@ -1,0 +1,254 @@
+import React, { useState } from 'react';
+import { products } from '../mockData';
+import { Product, CartItem } from '../types';
+import { ShoppingCart, Trash2, Plus, Minus, CreditCard, Banknote, Smartphone } from 'lucide-react';
+import { cn } from '../lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export default function POS() {
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [filter, setFilter] = useState('All Products');
+
+  const addToCart = (product: Product) => {
+    if (product.stock === 0) return;
+    setCart(prev => {
+      const existing = prev.find(item => item.id === product.id);
+      if (existing) {
+        return prev.map(item => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
+  };
+
+  const updateQuantity = (id: string, delta: number) => {
+    setCart(prev => prev.map(item => {
+      if (item.id === id) {
+        const newQty = Math.max(0, item.quantity + delta);
+        return { ...item, quantity: newQty };
+      }
+      return item;
+    }).filter(item => item.quantity > 0));
+  };
+
+  const clearCart = () => setCart([]);
+
+  const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const tax = subtotal * 0.085;
+  const total = subtotal + tax;
+
+  const categories = ['All Products', 'Skincare', 'Fragrance', 'Gifts'];
+
+  return (
+    <div className="flex h-full gap-6 p-6">
+      {/* Product Selection */}
+      <div className="flex-1 flex flex-col gap-6 overflow-hidden">
+        <div className="flex gap-4 scrollbar-hide overflow-x-auto pb-2 shrink-0">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              className={cn(
+                "px-6 py-2 rounded-full font-sans font-semibold text-sm transition-all shrink-0",
+                filter === cat 
+                  ? "bg-primary text-on-primary shadow-md" 
+                  : "bg-white text-on-surface-variant hover:bg-surface-container"
+              )}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto pb-6 pr-2">
+          {products
+            .filter(p => filter === 'All Products' || p.category === filter)
+            .map(product => (
+              <motion.div
+                layout
+                key={product.id}
+                onClick={() => addToCart(product)}
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
+                className={cn(
+                  "bg-white rounded-2xl overflow-hidden border border-stone-100 flex flex-col transition-all duration-300",
+                  "hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-primary/20 cursor-pointer group relative",
+                  product.stock === 0 && "opacity-60 cursor-not-allowed"
+                )}
+              >
+                <div className="aspect-[4/5] overflow-hidden relative bg-surface-container-low">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className={cn(
+                      "w-full h-full object-cover transition-transform duration-700 ease-out",
+                      product.stock > 0 && "group-hover:scale-110"
+                    )}
+                  />
+                  
+                  {/* Category Badge */}
+                  <div className="absolute top-3 left-3">
+                    <span className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-[10px] font-bold text-on-surface-variant/70 uppercase tracking-tighter">
+                      {product.category}
+                    </span>
+                  </div>
+
+                  {/* Add Button Overlay */}
+                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="bg-white p-3 rounded-full shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                      <Plus className="text-primary w-6 h-6" />
+                    </div>
+                  </div>
+
+                  {product.stock === 0 && (
+                    <div className="absolute inset-0 bg-on-surface/5 backdrop-blur-[2px] flex items-center justify-center">
+                      <span className="bg-error text-on-error px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                        Out of Stock
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Stock Level Small Indicator */}
+                  {product.stock > 0 && product.stock <= 5 && (
+                    <div className="absolute bottom-3 left-3">
+                      <span className="bg-error/10 backdrop-blur-sm text-error px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-tight">
+                        Low Stock: {product.stock}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-4 flex-1 flex flex-col gap-2">
+                  <div className="flex-1">
+                    <h4 className="font-serif text-[15px] leading-tight text-on-surface font-semibold group-hover:text-primary transition-colors">
+                      {product.name}
+                    </h4>
+                    <p className="text-[11px] text-on-surface-variant/50 font-sans mt-0.5">SKU: {product.sku}</p>
+                  </div>
+                  
+                  <div className="flex justify-between items-end mt-auto pt-2 border-t border-stone-50">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] text-on-surface-variant/40 font-bold uppercase tracking-widest">Price</span>
+                      <span className="font-sans text-lg text-primary font-black tracking-tight">${product.price.toFixed(2)}</span>
+                    </div>
+                    {product.stock > 0 && (
+                      <div className="bg-primary/5 p-1.5 rounded-lg text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Plus size={18} strokeWidth={3} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+        </div>
+      </div>
+
+      {/* Checkout Sidebar */}
+      <section className="w-[420px] bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden border border-stone-100 shrink-0">
+        <div className="p-6 border-b border-surface-container flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <h3 className="font-serif text-xl font-bold text-on-surface">Current Order</h3>
+            <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold">{cart.length}</span>
+          </div>
+          <button 
+            onClick={clearCart}
+            className="text-error text-xs font-bold hover:underline"
+          >
+            Clear All
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <AnimatePresence mode='popLayout'>
+            {cart.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-on-surface-variant/40 gap-4">
+                <ShoppingCart size={48} strokeWidth={1} />
+                <p className="text-sm">Your cart is empty</p>
+              </div>
+            ) : (
+              cart.map(item => (
+                <motion.div 
+                  layout
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  key={item.id} 
+                  className="flex items-center gap-4 py-2"
+                >
+                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-surface-container shrink-0">
+                    <img src={item.image} alt="" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h5 className="font-sans text-sm text-on-surface font-semibold truncate">{item.name}</h5>
+                    <p className="text-on-surface-variant/60 text-xs">${item.price.toFixed(2)}</p>
+                  </div>
+                  <div className="flex items-center gap-3 bg-surface-container-low rounded-lg px-2 py-1">
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); updateQuantity(item.id, -1); }}
+                      className="text-on-surface-variant hover:text-primary p-0.5"
+                    >
+                      <Minus size={14} />
+                    </button>
+                    <span className="font-sans text-sm font-bold min-w-[1rem] text-center">{item.quantity}</span>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); updateQuantity(item.id, 1); }}
+                      className="text-on-surface-variant hover:text-primary p-0.5"
+                    >
+                      <Plus size={14} />
+                    </button>
+                  </div>
+                  <div className="text-right min-w-[70px]">
+                    <span className="font-sans font-bold text-on-surface">${(item.price * item.quantity).toFixed(2)}</span>
+                  </div>
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="p-6 bg-surface-container-low border-t border-stone-200 space-y-4">
+          <div className="space-y-2">
+            <div className="flex justify-between text-on-surface-variant text-sm">
+              <span>Subtotal</span>
+              <span className="font-semibold">${subtotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-on-surface-variant text-sm">
+              <span>Tax (8.5%)</span>
+              <span className="font-semibold">${tax.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-on-surface pt-2">
+              <span className="text-lg font-serif font-bold">Total</span>
+              <span className="text-2xl font-sans font-black text-primary">${total.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div className="pt-4">
+            <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold mb-3">Payment Method</p>
+            <div className="grid grid-cols-3 gap-3">
+              <button className="flex flex-col items-center justify-center p-3 rounded-xl border border-stone-200 bg-white hover:border-primary-container hover:text-primary transition-all text-on-surface-variant">
+                <Banknote size={20} className="mb-1" />
+                <span className="text-[10px] font-bold uppercase">Cash</span>
+              </button>
+              <button className="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-primary-container bg-primary-container/10 text-primary transition-all shadow-sm">
+                <CreditCard size={20} className="mb-1" />
+                <span className="text-[10px] font-bold uppercase">Card</span>
+              </button>
+              <button className="flex flex-col items-center justify-center p-3 rounded-xl border border-stone-200 bg-white hover:border-primary-container hover:text-primary transition-all text-on-surface-variant">
+                <Smartphone size={20} className="mb-1" />
+                <span className="text-[10px] font-bold uppercase">Mobile</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button className="w-full bg-primary text-on-primary py-4 rounded-xl font-serif text-lg font-bold hover:brightness-110 shadow-lg shadow-primary/20 transition-all">
+              Complete Sale
+            </button>
+            <button className="w-full text-on-surface-variant/40 font-semibold text-xs py-3 hover:text-on-surface transition-colors">
+              Cancel Order
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
