@@ -1,12 +1,25 @@
-import React from 'react';
-import { staff } from '../mockData';
-import { Calendar, UserPlus, Trophy, Star, Filter, MoreVertical, Edit } from 'lucide-react';
+import React, { useState } from 'react';
+import { staff, transactions } from '../mockData';
+import { Calendar, UserPlus, Trophy, Star, Filter, MoreVertical, Edit, User as UserIcon, BarChart3 } from 'lucide-react';
 import { cn } from '../lib/utils';
-
-import { User } from '../types';
+import { User, StaffMember } from '../types';
+import StaffSalesProfile from '../components/StaffSalesProfile';
 
 export default function StaffScreen({ user }: { user: User }) {
+  const [selectedStaff, setSelectedStaff] = useState<StaffMember | null>(null);
   const isAdmin = user.role === 'SUPER_ADMIN';
+
+  if (selectedStaff) {
+    return (
+      <div className="p-4 sm:p-10 max-w-[1400px] mx-auto w-full text-left">
+        <StaffSalesProfile 
+          staffMember={selectedStaff} 
+          transactions={transactions} 
+          onBack={() => setSelectedStaff(null)} 
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 sm:p-10 max-w-[1400px] mx-auto w-full space-y-6 sm:space-y-10 text-left">
@@ -135,7 +148,18 @@ export default function StaffScreen({ user }: { user: User }) {
                       </div>
                     </td>
                     <td className="px-8 py-6 text-right">
-                      <button className="text-primary hover:underline font-bold text-xs uppercase tracking-wider transition-all">Edit Profile</button>
+                      <div className="flex items-center justify-end gap-3">
+                        <button 
+                          onClick={() => setSelectedStaff(member)}
+                          className="flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-xs uppercase tracking-wider transition-all bg-primary/5 px-4 py-2 rounded-lg"
+                        >
+                          <BarChart3 size={14} />
+                          Sales Profile
+                        </button>
+                        <button className="p-2 text-on-surface-variant hover:text-on-surface transition-colors">
+                          <MoreVertical size={16} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

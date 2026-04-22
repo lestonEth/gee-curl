@@ -30,6 +30,7 @@ export interface Transaction {
   amount: number;
   type: 'sale' | 'expense' | 'restock';
   status: 'paid' | 'pending' | 'completed';
+  items?: CartItem[];
 }
 
 export interface StaffMember {

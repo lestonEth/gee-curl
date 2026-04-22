@@ -64,11 +64,80 @@ export const products: Product[] = [
 ];
 
 export const transactions: Transaction[] = [
-  { id: '#9421', date: 'Oct 28, 2023', description: 'Sale: Order #9421', employee: 'Elena M.', method: 'Credit Card', amount: 245.00, type: 'sale', status: 'completed' },
-  { id: '#9422', date: 'Oct 27, 2023', description: 'Restock: Vitamin C Serum', employee: 'James A.', method: 'Bank Transfer', amount: 1420.00, type: 'restock', status: 'completed' },
-  { id: '#9418', date: 'Oct 27, 2023', description: 'Sale: Order #9418', employee: 'Sarah C.', method: 'Apple Pay', amount: 85.00, type: 'sale', status: 'completed' },
-  { id: '#9419', date: 'Oct 25, 2023', description: 'Expense: Utility Bill', employee: 'Office', method: 'Auto-Debit', amount: 342.12, type: 'expense', status: 'completed' },
-  { id: '#9399', date: 'Oct 24, 2023', description: 'Sale: Order #9399', employee: 'Elena M.', method: 'Cash', amount: 120.00, type: 'sale', status: 'completed' }
+  { 
+    id: '#9421', 
+    date: '2026-04-22', 
+    description: 'Sale: Order #9421', 
+    employee: 'Elena Vance', 
+    method: 'Credit Card', 
+    amount: 245.00, 
+    type: 'sale', 
+    status: 'completed',
+    items: [
+      { ...products[0], quantity: 2 },
+      { ...products[4], quantity: 1 }
+    ]
+  },
+  { 
+    id: '#9422', 
+    date: '2026-04-21', 
+    description: 'Restock: Vitamin C Serum', 
+    employee: 'System', 
+    method: 'Bank Transfer', 
+    amount: 1420.00, 
+    type: 'restock', 
+    status: 'completed' 
+  },
+  { 
+    id: '#9418', 
+    date: '2026-04-20', 
+    description: 'Sale: Order #9418', 
+    employee: 'Elena Vance', 
+    method: 'Apple Pay', 
+    amount: 85.00, 
+    type: 'sale', 
+    status: 'completed',
+    items: [
+      { ...products[0], quantity: 1 }
+    ]
+  },
+  { 
+    id: '#9419', 
+    date: '2026-04-15', 
+    description: 'Expense: Utility Bill', 
+    employee: 'Office', 
+    method: 'Auto-Debit', 
+    amount: 342.12, 
+    type: 'expense', 
+    status: 'completed' 
+  },
+  { 
+    id: '#9399', 
+    date: '2026-03-24', 
+    description: 'Sale: Order #9399', 
+    employee: 'Marcus Thorne', 
+    method: 'Cash', 
+    amount: 120.00, 
+    type: 'sale', 
+    status: 'completed',
+    items: [
+      { ...products[1], quantity: 1 }
+    ]
+  },
+  { 
+    id: '#9350', 
+    date: '2025-12-10', 
+    description: 'Sale: Order #9350', 
+    employee: 'Elena Vance', 
+    method: 'Credit Card', 
+    amount: 500.00, 
+    type: 'sale', 
+    status: 'completed',
+    items: [
+      { ...products[3], quantity: 3 },
+      { ...products[4], quantity: 1 }
+    ]
+  }
 ];
 
 export const staff: StaffMember[] = [

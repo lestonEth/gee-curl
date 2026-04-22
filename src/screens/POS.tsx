@@ -218,6 +218,13 @@ export default function POS({ onCompleteSale }: { onCompleteSale: () => void }) 
                       <Plus size={14} />
                     </button>
                   </div>
+                  <button 
+                    onClick={() => setCart(prev => prev.filter(i => i.id !== item.id))}
+                    className="p-2 text-on-surface-variant/20 hover:text-error transition-colors"
+                    title="Remove item"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                   <div className="text-right min-w-[70px]">
                     <span className="font-sans font-bold text-on-surface">${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
