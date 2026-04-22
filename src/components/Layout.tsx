@@ -1,5 +1,5 @@
 import React from 'react';
-import { Screen } from '../types';
+import { Screen, User } from '../types';
 import { cn } from '../lib/utils';
 
 // Mapping Lucide icons to look similar to common POS layouts
@@ -17,7 +17,8 @@ import {
   Plus as PlusIcon,
   Receipt as ReceiptIcon,
   Menu as MenuIcon,
-  X as CloseIcon
+  X as CloseIcon,
+  User as UserIcon
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -25,18 +26,22 @@ interface LayoutProps {
   children: React.ReactNode;
   activeScreen: Screen;
   onScreenChange: (screen: Screen) => void;
+  user: User;
 }
 
-export default function Layout({ children, activeScreen, onScreenChange }: LayoutProps) {
+export default function Layout({ children, activeScreen, onScreenChange, user }: LayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navItems = [
-    { id: 'dashboard' as Screen, label: 'Dashboard', icon: DashboardIcon },
-    { id: 'inventory' as Screen, label: 'Inventory', icon: InventoryIcon },
-    { id: 'pos' as Screen, label: 'POS', icon: POSIcon },
-    { id: 'ledger' as Screen, label: 'Ledger', icon: LedgerIcon },
-    { id: 'staff' as Screen, label: 'Staff', icon: StaffIcon },
-    { id: 'receipt' as Screen, label: 'Receipt', icon: ReceiptIcon },
+
+  const allNavItems = [
+    { id: 'dashboard' as Screen, label: 'Dashboard', icon: DashboardIcon, roles: ['SUPER_ADMIN', 'FLOOR_MANAGER', 'SALES_PERSON'] },
+    { id: 'inventory' as Screen, label: 'Inventory', icon: InventoryIcon, roles: ['SUPER_ADMIN', 'FLOOR_MANAGER'] },
+    { id: 'pos' as Screen, label: 'POS Terminal', icon: POSIcon, roles: ['SUPER_ADMIN', 'FLOOR_MANAGER', 'SALES_PERSON'] },
+    { id: 'ledger' as Screen, label: 'Ledger', icon: LedgerIcon, roles: ['SUPER_ADMIN'] },
+    { id: 'staff' as Screen, label: 'Staff Team', icon: StaffIcon, roles: ['SUPER_ADMIN', 'FLOOR_MANAGER'] },
+    { id: 'receipt' as Screen, label: 'Receipts', icon: ReceiptIcon, roles: ['SUPER_ADMIN', 'FLOOR_MANAGER'] },
   ];
+
+  const navItems = allNavItems.filter(item => item.roles.includes(user.role));
 
   return (
     <div className="flex h-screen overflow-hidden bg-background relative">
@@ -97,7 +102,13 @@ export default function Layout({ children, activeScreen, onScreenChange }: Layou
             Service Drawer
           </button>
           
-          <button className="w-full flex items-center gap-4 py-2 px-2 text-on-surface-variant hover:text-on-surface transition-colors text-sm text-left">
+          <button 
+            onClick={() => onScreenChange('settings')}
+            className={cn(
+              "w-full flex items-center gap-4 py-2 px-2 transition-colors text-sm text-left",
+              activeScreen === 'settings' ? "text-primary font-bold" : "text-on-surface-variant hover:text-on-surface"
+            )}
+          >
             <SettingsIcon size={18} />
             Settings
           </button>
@@ -147,12 +158,21 @@ export default function Layout({ children, activeScreen, onScreenChange }: Layou
               Quick Appointment
             </button>
             
-            <div className="w-10 h-10 rounded-full border-2 border-primary-container/20 overflow-hidden shrink-0 cursor-pointer hover:border-primary-container transition-all">
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSS1qZef0q6m15FzAlWV1xAhoM-Usqkd1NWZdt6Pp7_sNe44JiF-nCOKHnczzqO_N3vtXIgJGJucZcm3vSSQJV5Dy0-LWBU-uMt54DOzfdqaNbaDo6Z_3KFTQHSQUX3Ae2ATl6MAVulzIKuMd7tdaOpSWkLX3PiBtEZKiV4Rh1ljRsvPB5vMy_24OqcCfyu6MtNlI3v_Q8KJmHX2TSZ5Vn79c3von8OQtjGoV3TMOJw60M_87DCH2Vh10VTnduc-8ZvS-ksICiZv06" 
-                alt="Profile" 
-                className="w-full h-full object-cover"
-              />
+            <div className="flex items-center gap-3">
+              <div className="hidden lg:block text-right">
+                <p className="text-xs font-black text-on-surface">{user.name}</p>
+                <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{user.role.replace('_', ' ')}</p>
+              </div>
+              <div 
+                onClick={() => onScreenChange('settings')}
+                className="w-10 h-10 rounded-full border-2 border-primary-container/20 overflow-hidden shrink-0 cursor-pointer hover:border-primary-container transition-all flex items-center justify-center bg-surface-container"
+              >
+                {user.avatar ? (
+                  <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <UserIcon className="text-primary-container" size={20} />
+                )}
+              </div>
             </div>
           </div>
         </header>

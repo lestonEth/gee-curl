@@ -11,10 +11,19 @@ import {
   QrCode
 } from 'lucide-react';
 
-export default function ReceiptScreen() {
+export default function ReceiptScreen({ onBackToPOS }: { onBackToPOS: () => void }) {
   return (
     <div className="flex flex-col h-full bg-surface">
-      <div className="max-w-4xl mx-auto w-full flex flex-col lg:flex-row gap-8 lg:gap-12 p-4 lg:py-12">
+      <div className="max-w-4xl mx-auto w-full p-4">
+        <button 
+          onClick={onBackToPOS}
+          className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-sm font-bold mb-4"
+        >
+          <ArrowLeft size={16} />
+          Back to Terminal
+        </button>
+      </div>
+      <div className="max-w-4xl mx-auto w-full flex flex-col lg:flex-row gap-8 lg:gap-12 p-4 pt-0 lg:py-12 lg:pt-0">
         {/* Left Side: Actions */}
         <div className="w-full lg:w-1/3 flex flex-col gap-6 order-2 lg:order-1">
           <div className="bg-white p-6 rounded-xl border border-surface-container shadow-sm">

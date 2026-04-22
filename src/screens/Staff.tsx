@@ -3,7 +3,11 @@ import { staff } from '../mockData';
 import { Calendar, UserPlus, Trophy, Star, Filter, MoreVertical, Edit } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-export default function StaffScreen() {
+import { User } from '../types';
+
+export default function StaffScreen({ user }: { user: User }) {
+  const isAdmin = user.role === 'SUPER_ADMIN';
+
   return (
     <div className="p-4 sm:p-10 max-w-[1400px] mx-auto w-full space-y-6 sm:space-y-10 text-left">
       {/* Header */}
@@ -17,10 +21,12 @@ export default function StaffScreen() {
             <Calendar size={18} />
             Shift Schedule
           </button>
-          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-on-surface text-on-primary px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-on-surface/90 transition-all shadow-md">
-            <UserPlus size={18} />
-            New Employee
-          </button>
+          {isAdmin && (
+            <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-on-surface text-on-primary px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-on-surface/90 transition-all shadow-md">
+              <UserPlus size={18} />
+              New Employee
+            </button>
+          )}
         </div>
       </div>
 

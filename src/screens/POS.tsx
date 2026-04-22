@@ -5,9 +5,11 @@ import { ShoppingCart, Trash2, Plus, Minus, CreditCard, Banknote, Smartphone } f
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function POS() {
+export default function POS({ onCompleteSale }: { onCompleteSale: () => void }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [filter, setFilter] = useState('All Products');
+  const [paymentMethod, setPaymentMethod] = useState<'Cash' | 'Card' | 'Mobile'>('Card');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const addToCart = (product: Product) => {
     if (product.stock === 0) return;
@@ -31,6 +33,18 @@ export default function POS() {
   };
 
   const clearCart = () => setCart([]);
+
+  const handleCompleteSale = () => {
+    if (cart.length === 0) return;
+    setIsProcessing(true);
+    
+    // Simulate payment processing
+    setTimeout(() => {
+      setIsProcessing(false);
+      clearCart();
+      onCompleteSale();
+    }, 1500);
+  };
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const tax = subtotal * 0.085;
@@ -232,15 +246,33 @@ export default function POS() {
           <div className="pt-4">
             <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold mb-3">Payment Method</p>
             <div className="grid grid-cols-3 gap-3">
-              <button className="flex flex-col items-center justify-center p-3 rounded-xl border border-stone-200 bg-white hover:border-primary-container hover:text-primary transition-all text-on-surface-variant">
+              <button 
+                onClick={() => setPaymentMethod('Cash')}
+                className={cn(
+                  "flex flex-col items-center justify-center p-3 rounded-xl border transition-all text-on-surface-variant",
+                  paymentMethod === 'Cash' ? "border-2 border-primary-container bg-primary-container/10 text-primary shadow-sm" : "border-stone-200 bg-white hover:border-primary-container hover:text-primary"
+                )}
+              >
                 <Banknote size={20} className="mb-1" />
                 <span className="text-[10px] font-bold uppercase">Cash</span>
               </button>
-              <button className="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-primary-container bg-primary-container/10 text-primary transition-all shadow-sm">
+              <button 
+                onClick={() => setPaymentMethod('Card')}
+                className={cn(
+                  "flex flex-col items-center justify-center p-3 rounded-xl border transition-all text-on-surface-variant",
+                  paymentMethod === 'Card' ? "border-2 border-primary-container bg-primary-container/10 text-primary shadow-sm" : "border-stone-200 bg-white hover:border-primary-container hover:text-primary"
+                )}
+              >
                 <CreditCard size={20} className="mb-1" />
                 <span className="text-[10px] font-bold uppercase">Card</span>
               </button>
-              <button className="flex flex-col items-center justify-center p-3 rounded-xl border border-stone-200 bg-white hover:border-primary-container hover:text-primary transition-all text-on-surface-variant">
+              <button 
+                onClick={() => setPaymentMethod('Mobile')}
+                className={cn(
+                  "flex flex-col items-center justify-center p-3 rounded-xl border transition-all text-on-surface-variant",
+                  paymentMethod === 'Mobile' ? "border-2 border-primary-container bg-primary-container/10 text-primary shadow-sm" : "border-stone-200 bg-white hover:border-primary-container hover:text-primary"
+                )}
+              >
                 <Smartphone size={20} className="mb-1" />
                 <span className="text-[10px] font-bold uppercase">Mobile</span>
               </button>
@@ -248,10 +280,31 @@ export default function POS() {
           </div>
 
           <div className="pt-2">
-            <button className="w-full bg-primary text-on-primary py-4 rounded-xl font-serif text-lg font-bold hover:brightness-110 shadow-lg shadow-primary/20 transition-all">
-              Complete Sale
+            <button 
+              onClick={handleCompleteSale}
+              disabled={isProcessing || cart.length === 0}
+              className={cn(
+                "w-full py-4 rounded-xl font-serif text-lg font-bold transition-all shadow-lg",
+                isProcessing || cart.length === 0 
+                  ? "bg-stone-300 text-stone-500 cursor-not-allowed shadow-none" 
+                  : "bg-primary text-on-primary hover:brightness-110 shadow-primary/20"
+              )}
+            >
+              {isProcessing ? (
+                <div className="flex items-center justify-center gap-2">
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                    className="w-5 h-5 border-2 border-on-primary border-t-transparent rounded-full"
+                  />
+                  <span>Processing...</span>
+                </div>
+              ) : 'Complete Sale'}
             </button>
-            <button className="w-full text-on-surface-variant/40 font-semibold text-xs py-3 hover:text-on-surface transition-colors">
+            <button 
+              onClick={clearCart}
+              className="w-full text-on-surface-variant/40 font-semibold text-xs py-3 hover:text-on-surface transition-colors"
+            >
               Cancel Order
             </button>
           </div>

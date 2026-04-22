@@ -1,4 +1,14 @@
-export type Screen = 'dashboard' | 'inventory' | 'pos' | 'ledger' | 'staff' | 'receipt';
+export type UserRole = 'SUPER_ADMIN' | 'FLOOR_MANAGER' | 'SALES_PERSON';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  avatar?: string;
+}
+
+export type Screen = 'dashboard' | 'inventory' | 'pos' | 'ledger' | 'staff' | 'receipt' | 'settings';
 
 export interface Product {
   id: string;

@@ -3,24 +3,30 @@ import { products } from '../mockData';
 import { FileDown, Plus, Filter, MoreVertical, Edit2, Trash2, TrendingUp, Calendar, Star, AlertTriangle } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-export default function InventoryScreen() {
+import { User } from '../types';
+
+export default function InventoryScreen({ user }: { user: User }) {
+  const isAdmin = user.role === 'SUPER_ADMIN';
+
   return (
     <div className="p-4 sm:p-10 space-y-6 sm:space-y-8 max-w-[1400px] mx-auto w-full">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 text-left">
         <div>
           <h2 className="font-serif text-2xl sm:text-3xl text-primary tracking-tight">Product Inventory</h2>
-          <p className="text-on-surface-variant text-xs sm:text-sm mt-1">Manage your boutique essentials and stock levels.</p>
+          <p className="text-on-surface-variant text-xs sm:text-sm mt-1 text-left">Manage your boutique essentials and stock levels.</p>
         </div>
         <div className="flex gap-3 w-full sm:w-auto">
           <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-outline-variant rounded-lg font-semibold text-xs sm:text-sm text-on-surface-variant hover:bg-surface-container transition-colors shadow-sm">
             <FileDown size={18} />
             Export CSV
           </button>
-          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold text-xs sm:text-sm shadow-sm hover:opacity-90 transition-all">
-            <Plus size={18} />
-            Add New Product
-          </button>
+          {isAdmin && (
+            <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold text-xs sm:text-sm shadow-sm hover:opacity-90 transition-all">
+              <Plus size={18} />
+              Add New Product
+            </button>
+          )}
         </div>
       </div>
 
